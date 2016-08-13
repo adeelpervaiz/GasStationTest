@@ -37,3 +37,20 @@ String getGasType(GasType type);
 ..
 }
 ```
+
+##Added Classes
+```Java
+public class GasStationSimulator implements GasStation {
+...
+...
+
+	GasStationSimulator(){
+		prices = new HashMap<GasType, Double>();
+		pumps = new ArrayList<GasPump>();
+		totalRevenue = 0 ;
+	}
+
+...
+..
+}
+```
