@@ -8,21 +8,23 @@ The goal is to implement the interface of a gas station which has multiple gas p
 
 
 ##Assumptions
-*Need to show if the gasType is available, if not Raise Exception
-*Need to check if customer Offering to pay Price for Per Litre is Higher than our set price.
-*Generate Report at the end how many cancellations of Gas happened
-*Categorize Cancelleation Types in Numbers
-*Geenrate Report and Show Revenue.
+-Need to show if the gasType is available, if not Raise Exception
+-Need to check if customer Offering to pay Price for Per Litre is Higher than our set price.
+-Generate Report at the end how many cancellations of Gas happened
+-Categorize Cancelleation Types in Numbers
+-Geenrate Report and Show Revenue.
 
 ##Given Classes
+```
 GasPump
 GasStation
 GasType
 GasTooExpensiveException
 NotEnoughGasException
+```
 
 ##New Methods
-```
+```Java
 double getAvailableGas(GasType type);
 
 public String getGasType(GasType type);
