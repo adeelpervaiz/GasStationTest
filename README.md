@@ -25,7 +25,15 @@ NotEnoughGasException
 
 ##New Methods
 ```Java
+public interface GasStation {
+...
+...
+
 double getAvailableGas(GasType type);
 
 public String getGasType(GasType type);
+
+...
+..
+}
 ```
