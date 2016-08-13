@@ -53,4 +53,23 @@ public class GasStationSimulator implements GasStation {
 ...
 ..
 }
+
+public class MainProgram {
+	
+	public MainProgram() {
+		// TODO Auto-generated constructor stub
+	}
+		
+	public static void main(String[] args){
+		System.out.println("Working fine");
+		GasStationSimulator station1 = new GasStationSimulator();
+		
+		...
+		...
+	}
+	
+	...
+	...
+}
+
 ```
