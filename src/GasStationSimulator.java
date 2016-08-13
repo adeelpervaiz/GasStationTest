@@ -8,6 +8,7 @@ import main.java.net.bigpoint.assessment.gasstation.GasStation ;
 import main.java.net.bigpoint.assessment.gasstation.GasType;
 import main.java.net.bigpoint.assessment.gasstation.exceptions.GasTooExpensiveException;
 import main.java.net.bigpoint.assessment.gasstation.exceptions.NotEnoughGasException;
+import main.java.net.bigpoint.assessment.gasstation.exceptions.PumpNotExistException;
 
 
 public class GasStationSimulator implements GasStation {
@@ -18,6 +19,8 @@ public class GasStationSimulator implements GasStation {
 	private double totalRevenue ;
 	private int canellationsOfGasNotAvailable ;
 	private int canellationsOfGasExpensive ;
+	private int canellationsOfPumpNotAvailable ;
+	private int numberOfSales ;
 	
 	GasStationSimulator(){
 		prices = new HashMap<GasType, Double>();
@@ -38,9 +41,9 @@ public class GasStationSimulator implements GasStation {
 		try {
 			this.buyGas(type, amountInLiters, maxPricePerLiter);
 		} catch (NotEnoughGasException e) {
-			System.out.println("Exp : " + e.getLocalizedMessage() + "\n\n");
+			System.out.println("Excp : " + e.getLocalizedMessage() + "\n\n");
 		} catch (GasTooExpensiveException e) {
-			System.out.println("Exp : " + e.getLocalizedMessage() + "\n\n");
+			System.out.println("Excp : " + e.getLocalizedMessage() + "\n\n");
 		}
 	}
 	
@@ -62,23 +65,29 @@ public class GasStationSimulator implements GasStation {
 
 	@Override
 	public void addGasPump(GasPump pump) {
-		// TODO Auto-generated method stub
+		for(GasPump addedPump : pumps){
+			if(addedPump.getGasType().equals(pump.getGasType())){
+				
+			}
+		}
 		pumps.add(pump);
 	}
 
 	@Override
 	public Collection<GasPump> getGasPumps() {
-		// TODO Auto-generated method stub
 		return pumps;
 	}
 
 	@Override
 	public double buyGas(GasType type, double amountInLiters, double maxPricePerLiter)
 			throws NotEnoughGasException, GasTooExpensiveException {
-		// TODO Auto-generated method stub
+		
+		boolean pumpExist = false  ;
+		
 		for(GasPump pump : pumps){
-			
 			if(pump.getGasType().equals(type)){
+				
+				pumpExist = true ;
 				
 				System.out.println("Sell Gas Type : " + this.getGasType(type)+ " @ "+getPrice(type)+"/Litre");
 				System.out.println("Remaing Gas In Amount : " + pump.getRemainingAmount());
@@ -87,22 +96,30 @@ public class GasStationSimulator implements GasStation {
 				if(maxPricePerLiter < getPrice(type)){
 					System.out.println("### CANNOT SELL GAS @ "+ maxPricePerLiter +"/Litre : TOO EXPENSIVE ####");
 					this.setCanellationsOfGasExpensive(this.getCanellationsOfGasExpensive() + 1) ;
-					throw new GasTooExpensiveException("Expensive");
+					throw new GasTooExpensiveException("Gas is Expensive");
 				}
 				else if(pump.getRemainingAmount() < amountInLiters){
 					System.out.println("### CANNOT SELL : NOT ENOUGH GAS ####");
 					this.setCanellationsOfGasNotAvailable(this.getCanellationsOfGasNotAvailable() + 1) ;
-					throw new NotEnoughGasException("Not Available");
+					throw new NotEnoughGasException("Gas Not Available");
 					
 				}
 				else {
 					pump.pumpGas(amountInLiters);
-					
 					this.totalRevenue += amountInLiters ;
-					
-					System.out.println("**** GAS SOLD **** \n");
+					setNumberOfSales(this.getNumberOfSales() + 1);
 					break ;
 				}
+			}
+		}
+		
+		if(pumpExist==false){
+			System.out.println("### CANNOT SELL : PUMP NOT EXIST ####");
+			this.setCanellationsOfPumpNotAvailable(this.getCanellationsOfPumpNotAvailable() + 1) ;
+			try {
+				throw new PumpNotExistException("We don't sell this type of Gas");
+			} catch (PumpNotExistException e) {
+				System.out.println("Excp : " + e.getLocalizedMessage() + "\n\n");
 			}
 		}
 		
@@ -126,33 +143,25 @@ public class GasStationSimulator implements GasStation {
 		return 0 ;
 	}
 
-	@Override
-	public int getNumberOfSales() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public int getNumberOfCancellationsNoGas() {
-		// TODO Auto-generated method stub
 		return this.getCanellationsOfGasNotAvailable();
 	}
 
 	@Override
 	public int getNumberOfCancellationsTooExpensive() {
-		// TODO Auto-generated method stub
 		return this.getCanellationsOfGasExpensive() ;
 	}
 
 	@Override
 	public double getPrice(GasType type) {
-		// TODO Auto-generated method stub
 		return prices.get(type);
 	}
 
 	@Override
 	public void setPrice(GasType type, double price) {
-		// TODO Auto-generated method stub
 		prices.put(type, price);
 	}
 
@@ -185,5 +194,33 @@ public class GasStationSimulator implements GasStation {
 	 */
 	public void setCanellationsOfGasExpensive(int canellationsOfGasExpensive) {
 		this.canellationsOfGasExpensive = canellationsOfGasExpensive;
+	}
+
+
+	/**
+	 * Get Pump Not available Cancel Count 
+	 */
+	public int getCanellationsOfPumpNotAvailable() {
+		return canellationsOfPumpNotAvailable;
+	}
+
+
+	/**
+	 * Set Pump not available Count
+	 * @param  canellationsOfPumpNotAvailable
+	 */
+	public void setCanellationsOfPumpNotAvailable(int canellationsOfPumpNotAvailable) {
+		this.canellationsOfPumpNotAvailable = canellationsOfPumpNotAvailable;
+	}
+
+
+	@Override
+	public int getNumberOfSales() {
+		return this.numberOfSales;
+	}
+	
+	public void setNumberOfSales(int numberOfSales) {
+		System.out.println("**** GAS SOLD **** \n");
+		this.numberOfSales = numberOfSales;
 	}
 }

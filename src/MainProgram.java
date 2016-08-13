@@ -59,12 +59,15 @@ public class MainProgram {
 		
 		
 		
-		System.out.println("Total Revenue " + station.getRevenue());
+		
 		System.out.println("Gas Shortage " + station.getNumberOfCancellationsNoGas());
 		System.out.println("Gas Deficit " + station.getNumberOfCancellationsTooExpensive());
+		System.out.println("Pump Not Exist " + ((GasStationSimulator) station).getCanellationsOfPumpNotAvailable());
 		System.out.println("Remaing Gas "+ station.getGasType(GasType.DIESEL) + " = " + station.getAvailableGas(GasType.DIESEL));
 		System.out.println("Remaing Gas "+ station.getGasType(GasType.REGULAR) + " = " + station.getAvailableGas(GasType.REGULAR));
 		System.out.println("Remaing Gas "+ station.getGasType(GasType.SUPER) + " = " + station.getAvailableGas(GasType.SUPER));
+		System.out.println("Total Sales " + station.getNumberOfSales());
+		System.out.println("Total Revenue " + station.getRevenue());
 		
 		for(int i=0; i<30; i++){
 			System.out.print("----");
