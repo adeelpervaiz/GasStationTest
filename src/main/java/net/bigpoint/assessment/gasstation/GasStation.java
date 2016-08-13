@@ -107,6 +107,6 @@ public interface GasStation {
 	 * @param type
 	 *            the type of gas
 	 */
-	public String getGasType(GasType type);
+	String getGasType(GasType type);
 	
 }
